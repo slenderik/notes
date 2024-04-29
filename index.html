@@ -5,57 +5,175 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Заметки</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="logo.svg" type="image/x-icon">
+
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <!-- Goole fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
     <script type="text/javascript">
 
-        function buttonClick()
-        {
-            var div = document.getElementById ("myDiv");
-            var button = document.getElementById ("myButton");
-            var content_div = document.getElementById ("ListContent");
-            var textarea = document.getElementById ("myTextarea");
-
-            if (div.contentEditable == "true")
-            {
-                div.contentEditable = "false";
-                content_div.style.display = "inline";
-                textarea.innerHTML = div.innerHTML;
-                button.value = "Редактировать";
-            }
-
-            else
-            {
-                div.contentEditable = "true";
-                content_div.style.display = "none";
-                button.value = "Сохранить";
-            }
-
-        }
-    </script>
-  </head>
-
-  <body>
-    <b>Что нужно сделать?</b> (список можно редактировать)
-
-    <div id="myDiv" contenteditable="true">
+        var div = document.getElementById ("myDiv");
+        var button = document.getElementById ("myButton");
+        var content_div = document.getElementById ("ListContent");
+        var textarea = document.getElementById ("myTextarea");
         
-        <ul id="todolist">  
-            <li>Купить молоко</li>  
-            <li>Купить яйца</li>
-            <li>Починить дверь</li>
-            <li>Отредактировать список!</li>
-        </ul>
+        function saveNoteContent()
+        {
+            let noteContent  = document.getElementById("noteContent");
+            let noteTitle  = document.getElementById("noteTitle");
+            
+            console.log("Header: " + noteTitle.value + "\n" + "Content: " + noteContent.value);
+        }
+        
 
-    </div>
+        // Защита контента заметки
 
-    <input type="button" id="myButton" onclick="buttonClick();" value="Сохранить">
+        // window.addEventListener('beforeunload', function (event) {
+        //     // Отменяем поведение по умолчанию
+        //     event.preventDefault()
 
-    <br><br>
+        //     // Chrome требует наличия returnValue
+        //     event.returnValue = ''
+        // })
 
-    <div id="ListContent" style="display: none;">
-        Что в списке:<br>
-        <textarea rows="10" cols="70" id="myTextarea">
-        </textarea>
-    </div>
+    </script>
+    <style>
+        :root {
+            --color-note: #FFFFA7;
+        }
+        
+        body {
+            background-color: var(--color-note);
+            font-family: "Roboto", sans-serif;
+            font-weight: 400;
+            font-style: normal;
+        }
 
+        .wrapper {
+            width: 60%;
+            margin: auto;
+        }
+
+        .note-container {
+            border: 1px solid gray;
+            border-radius: 30px;
+            padding: 30px;
+        }
+
+        .note-title {
+            width: 100%;
+            border: none;
+            font-size: 24px;
+            font-weight: 500;
+            font-style: medium;
+            font-weight: bold;
+            background-color: transparent;
+
+            font-size: 1.5em;
+            margin-block-start: 0.83em;
+            margin-block-end: 0.83em;
+            margin-inline-start: 0px;
+            margin-inline-end: 0px;
+        }
+
+        .note-content {
+            width: 100%;
+            border: none;
+            font-size: 16px;
+            background-color: transparent;
+
+            height: 30px;
+        }
+
+        input[type=text]:focus {
+            outline: none;
+        }
+
+        a {
+            color: orange;
+        }
+        
+        .no-underline {
+            text-decoration: none;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            align-content: center;
+            justify-content: space-between;
+        }
+
+        header > nav {
+            display: inline;
+        }
+
+        .titled-text {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+
+<body>
+    <header class="wrapper">
+        <a class="no-underline" href="/">
+            <p class="titled-text">Заметки</p>
+        </a>
+
+        <nav>
+            <a class="no-underline" href="https://github.com/slenderik/notes">GitHub</a>
+            <a class="no-underline" href="https://github.com/slenderik">Автор</a>
+        </nav>
+    </header>
+
+    <main class="wrapper note-container">
+
+        <input
+            type="text"
+            id="noteTitle"
+            name="noteTitle"
+            autocomplete="off"
+            class="note-title"
+            placeholder="Заголовок"
+
+            onfocusout="saveNoteContent()"
+        >
+        
+        <hr>
+
+        <input
+            type="text"
+            id="noteContent"
+            name="noteContent"
+            autocomplete="off"
+            class="note-content"
+            placeholder="Начните писать"
+
+            onfocusout="saveNoteContent()"
+        >
+
+        <!-- 
+        <div id="myDiv" contenteditable="true">
+            <p>Начните писать</p>
+            
+            <ul id="todolist">  
+                <li>Купить молоко</li>  
+                <li>Купить яйца</li>
+                <li>Починить дверь</li>
+                <li>Отредактировать список!</li>
+            </ul>
+            <p>брр</p>
+        </div> -->
+
+        <!-- <input type="button" id="myButton" onclick="saveNoteButton();" value="Сохранить"> -->
+    </main>
 </body>
 </html>
